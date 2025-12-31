@@ -1,0 +1,217 @@
+/**
+ * Estilos del panel de administración de Horizont Sync
+ */
+
+/* Status badges */
+.horizont-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.horizont-status-synced {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.horizont-status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.horizont-status-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.horizont-status-conflict {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+/* Result messages */
+.horizont-result {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.horizont-result.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.horizont-result.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.horizont-result.loading {
+    background-color: #e2e3e5;
+    color: #383d41;
+}
+
+/* Loading spinner */
+.horizont-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: horizont-spin 1s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes horizont-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Tables */
+.horizont-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.horizont-table th,
+.horizont-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.horizont-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+.horizont-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Cards */
+.horizont-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.horizont-card-header {
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.horizont-card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Progress bar */
+.horizont-progress {
+    width: 100%;
+    height: 20px;
+    background-color: #e1e1e1;
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.horizont-progress-bar {
+    height: 100%;
+    background-color: #0073aa;
+    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+}
+
+/* Info boxes */
+.horizont-info {
+    background-color: #e7f3fe;
+    border-left: 4px solid #0073aa;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.horizont-warning {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.horizont-success {
+    background-color: #d4edda;
+    border-left: 4px solid #28a745;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.horizont-error {
+    background-color: #f8d7da;
+    border-left: 4px solid #dc3545;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+/* Button groups */
+.horizont-button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Inline notices */
+.notice.inline {
+    margin: 10px 0;
+}
+
+/* Storage selector table */
+.horizont-storage-table {
+    max-width: 600px;
+}
+
+.horizont-storage-table td:first-child {
+    width: 30px;
+    text-align: center;
+}
+
+/* Action buttons spacing */
+.form-table td .button + .button {
+    margin-left: 10px;
+}
+
+/* Result spans */
+#horizont-test-result,
+#horizont-sync-result,
+#horizont-stock-result {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .horizont-button-group {
+        flex-direction: column;
+    }
+
+    .horizont-button-group .button {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build artifacts
+dist/
+build/
+
+# IDE and editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+debug.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# WordPress specific
+wp-config.php
+wp-content/uploads/
+wp-content/upgrade/
+
+# Composer
+composer.lock
+
+# npm/yarn
+package-lock.json
+yarn.lock
+
+# Cache
+*.cache
+.phpunit.result.cache
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
