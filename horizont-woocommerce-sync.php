@@ -104,7 +104,7 @@ final class Horizont_WooCommerce_Sync {
     public function woocommerce_missing_notice() {
         ?>
         <div class="notice notice-error">
-            <p><?php esc_html_e('Horizont Sync requiere WooCommerce para funcionar.', 'horizont-woocommerce-sync'); ?></p>
+            <p><?php esc_html_e('Contagracia Sync requiere WooCommerce para funcionar.', 'horizont-woocommerce-sync'); ?></p>
         </div>
         <?php
     }
@@ -126,13 +126,13 @@ final class Horizont_WooCommerce_Sync {
     public function init_components() {
         if (!class_exists('WooCommerce')) {
             if (defined('WP_DEBUG') && WP_DEBUG) {
-                error_log('[Horizont Sync] WooCommerce not active, skipping init');
+                error_log('[Contagracia Sync] WooCommerce not active, skipping init');
             }
             return;
         }
 
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[Horizont Sync] Initializing components...');
+            error_log('[Contagracia Sync] Initializing components...');
         }
 
         // Inicializar clases singleton
@@ -144,7 +144,7 @@ final class Horizont_WooCommerce_Sync {
         Horizont_Cron::get_instance();
 
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[Horizont Sync] All components initialized. REST routes should be registered.');
+            error_log('[Contagracia Sync] All components initialized. REST routes should be registered.');
         }
     }
 

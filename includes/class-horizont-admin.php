@@ -114,7 +114,7 @@ class Horizont_Admin {
             array(
                 'label_for' => 'api_url',
                 'description' => __('URL de la API de Contagracia (proporcionada en el ERP)', 'horizont-woocommerce-sync'),
-                'placeholder' => 'https://xxxxx.supabase.co/functions/v1/ecommerce-api',
+                'placeholder' => 'https://tu-servidor.com/api/ecommerce/plugin',
             )
         );
 
@@ -126,7 +126,7 @@ class Horizont_Admin {
             'horizont_connection_section',
             array(
                 'label_for' => 'api_token',
-                'description' => __('Token de ecommerce generado en Contagracia ERP (ej: hzt_xxxx)', 'horizont-woocommerce-sync'),
+                'description' => __('Token de ecommerce generado en Contagracia ERP (ej: ctg_xxxx)', 'horizont-woocommerce-sync'),
             )
         );
 

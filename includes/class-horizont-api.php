@@ -94,14 +94,14 @@ class Horizont_API {
 
         // Debug log
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[Horizont API] Request: ' . $method . ' ' . $url);
+            error_log('[Contagracia API] Request: ' . $method . ' ' . $url);
         }
 
         $response = wp_remote_request($url, $args);
 
         if (is_wp_error($response)) {
             if (defined('WP_DEBUG') && WP_DEBUG) {
-                error_log('[Horizont API] WP Error: ' . $response->get_error_message());
+                error_log('[Contagracia API] WP Error: ' . $response->get_error_message());
             }
             return $response;
         }
@@ -112,7 +112,7 @@ class Horizont_API {
 
         // Debug log
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('[Horizont API] Response: HTTP ' . $status_code . ' - ' . substr($response_body, 0, 500));
+            error_log('[Contagracia API] Response: HTTP ' . $status_code . ' - ' . substr($response_body, 0, 500));
         }
 
         if ($status_code >= 400) {
