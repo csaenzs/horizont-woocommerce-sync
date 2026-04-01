@@ -79,6 +79,10 @@ class Horizont_Sync {
             }
         }
 
+        // Limpiar productos eliminados/inactivados en Contagracia
+        $deleted_results = $this->cleanup_deleted_products();
+        $results['deleted'] = $deleted_results['deleted'];
+
         return $results;
     }
 
@@ -211,13 +215,15 @@ class Horizont_Sync {
     private function prepare_simple_product_data($horizont_product, $stock) {
         $sku = !empty($horizont_product['sku']) ? $horizont_product['sku'] : $horizont_product['consecutive'];
 
+        $stock_qty = intval($stock);
         $data = array(
             'name' => $horizont_product['name'],
             'sku' => $sku,
             'regular_price' => floatval($horizont_product['unit_price']),
             'manage_stock' => isset($horizont_product['manage_inventory']) ? $horizont_product['manage_inventory'] : true,
-            'stock_quantity' => intval($stock),
-            'stock_status' => $stock > 0 ? 'instock' : 'outofstock',
+            'stock_quantity' => $stock_qty,
+            'stock_status' => $stock_qty > 0 ? 'instock' : 'outofstock',
+            'backorders' => 'yes', // Permitir inventario negativo (Contagracia lo permite)
         );
 
         if (!empty($horizont_product['description'])) {
@@ -286,10 +292,12 @@ class Horizont_Sync {
         $product->set_sku($data['sku']);
         $product->set_regular_price($data['regular_price']);
         $product->set_manage_stock($data['manage_stock']);
+        $product->set_backorders($data['backorders'] ?? 'yes');
 
         if ($data['manage_stock']) {
             $product->set_stock_quantity($data['stock_quantity']);
-            $product->set_stock_status($data['stock_status']);
+            // Con backorders, siempre instock aunque stock sea negativo
+            $product->set_stock_status('instock');
         }
 
         if (isset($data['description'])) {
@@ -336,10 +344,11 @@ class Horizont_Sync {
         $product->set_name($data['name']);
         $product->set_regular_price($data['regular_price']);
         $product->set_manage_stock($data['manage_stock']);
+        $product->set_backorders($data['backorders'] ?? 'yes');
 
         if ($data['manage_stock']) {
             $product->set_stock_quantity($data['stock_quantity']);
-            $product->set_stock_status($data['stock_status']);
+            $product->set_stock_status('instock');
         }
 
         if (isset($data['description'])) {
@@ -567,9 +576,10 @@ class Horizont_Sync {
         $manage_stock = isset($variant['manage_inventory']) ? $variant['manage_inventory'] : true;
 
         $variation->set_manage_stock($manage_stock);
+        $variation->set_backorders('yes');
         if ($manage_stock) {
             $variation->set_stock_quantity(intval($stock));
-            $variation->set_stock_status($stock > 0 ? 'instock' : 'outofstock');
+            $variation->set_stock_status('instock');
         }
 
         // Obtener varianzas (valores de atributos)
@@ -853,6 +863,50 @@ class Horizont_Sync {
         }
 
         return $body;
+    }
+
+    /**
+     * Eliminar productos de WooCommerce que fueron eliminados/inactivados en Contagracia
+     */
+    public function cleanup_deleted_products() {
+        $results = array('deleted' => 0, 'errors' => 0);
+
+        $deleted_mappings = $this->api->get_deleted_mappings();
+
+        if (empty($deleted_mappings)) {
+            return $results;
+        }
+
+        foreach ($deleted_mappings as $mapping) {
+            $wc_product_id = intval($mapping['external_product_id']);
+            $wc_product = wc_get_product($wc_product_id);
+
+            if ($wc_product) {
+                try {
+                    // Si es variable, eliminar variaciones primero
+                    if ($wc_product->is_type('variable')) {
+                        foreach ($wc_product->get_children() as $child_id) {
+                            wp_trash_post($child_id);
+                        }
+                    }
+                    // Mover a papelera (no borrar permanente)
+                    wp_trash_post($wc_product_id);
+                    $results['deleted']++;
+                } catch (Exception $e) {
+                    $results['errors']++;
+                }
+            } else {
+                // Producto ya no existe en WooCommerce, solo limpiar mapeo
+                $results['deleted']++;
+            }
+
+            // Eliminar el mapeo en Contagracia
+            if (!empty($mapping['mapping_id'])) {
+                $this->api->delete_mapping($mapping['mapping_id']);
+            }
+        }
+
+        return $results;
     }
 
     /**

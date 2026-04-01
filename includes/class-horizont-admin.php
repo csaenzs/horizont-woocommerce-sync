@@ -576,14 +576,17 @@ class Horizont_Admin {
             wp_send_json_error(array('message' => $result->get_error_message()));
         }
 
-        wp_send_json_success(array(
-            'message' => sprintf(
-                __('Creados: %d, Actualizados: %d, Errores: %d', 'horizont-woocommerce-sync'),
-                $result['created'],
-                $result['updated'],
-                $result['errors']
-            ),
-        ));
+        $deleted = isset($result['deleted']) ? $result['deleted'] : 0;
+        $msg = sprintf(
+            __('Creados: %d, Actualizados: %d, Errores: %d', 'horizont-woocommerce-sync'),
+            $result['created'],
+            $result['updated'],
+            $result['errors']
+        );
+        if ($deleted > 0) {
+            $msg .= sprintf(__(', Eliminados: %d', 'horizont-woocommerce-sync'), $deleted);
+        }
+        wp_send_json_success(array('message' => $msg));
     }
 
     /**

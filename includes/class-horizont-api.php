@@ -282,6 +282,26 @@ class Horizont_API {
     }
 
     /**
+     * Obtener mapeos de productos eliminados/inactivados en Contagracia
+     */
+    public function get_deleted_mappings() {
+        $result = $this->request('GET', 'mappings/deleted');
+
+        if (is_wp_error($result)) {
+            return array();
+        }
+
+        return isset($result['deleted']) ? $result['deleted'] : array();
+    }
+
+    /**
+     * Eliminar mapeo después de borrar producto en WooCommerce
+     */
+    public function delete_mapping($mapping_id) {
+        return $this->request('DELETE', 'mappings/' . $mapping_id);
+    }
+
+    /**
      * Notificar venta al ERP
      */
     public function notify_sale($order_data) {
