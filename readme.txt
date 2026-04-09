@@ -4,7 +4,7 @@ Tags: woocommerce, erp, sync, inventory, stock
 Requires at least: 5.8
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,15 @@ El plugin envía el token `ctg_xxxx` en el header `X-API-Token` en cada petició
 
 == Changelog ==
 
+= 1.2.0 =
+* Envío de cambios de estado de órdenes al backend (processing, completed, cancelled, refunded)
+* Nuevo método send_webhook() en API client para envío genérico de eventos
+
+= 1.1.0 =
+* Limpieza automática de productos eliminados/inactivados en Contagracia al sincronizar
+* Soporte para inventario negativo (backorders habilitados automáticamente)
+* Excluir platos de restaurante de la sincronización
+
 = 1.0.0 =
 * Versión inicial
 * Sincronización de productos e inventario desde Contagracia ERP
@@ -91,6 +100,12 @@ El plugin envía el token `ctg_xxxx` en el header `X-API-Token` en cada petició
 * Autenticación mediante token `ctg_xxxx`
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Actualización importante: los cambios de estado de pedidos ahora se envían automáticamente a Contagracia.
+
+= 1.1.0 =
+Mejoras en sincronización: limpieza de productos eliminados, soporte backorders.
 
 = 1.0.0 =
 Versión inicial del plugin.
