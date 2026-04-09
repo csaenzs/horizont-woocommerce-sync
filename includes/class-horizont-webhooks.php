@@ -105,21 +105,12 @@ class Horizont_Webhooks {
      * Cuando cambia el estado del pedido
      */
     public function on_order_status_changed($order_id, $old_status, $new_status, $order) {
-        $order_data = array(
+        $this->api->send_webhook('order.status_changed', array(
             'order_id' => $order_id,
             'old_status' => $old_status,
             'new_status' => $new_status,
             'updated_at' => current_time('c'),
-        );
-
-        $this->api->log_sync(
-            'order_status_changed',
-            'order',
-            $order_id,
-            'success',
-            '',
-            $order_data
-        );
+        ));
     }
 
     /**
@@ -135,39 +126,33 @@ class Horizont_Webhooks {
             $this->on_new_order($order_id, $order);
         }
 
-        // Marcar como completado en el log
-        $this->api->log_sync(
-            'order_completed',
-            'order',
-            $order_id,
-            'success'
-        );
+        $this->api->send_webhook('order.completed', array(
+            'order_id' => $order_id,
+            'status' => 'completed',
+            'updated_at' => current_time('c'),
+        ));
     }
 
     /**
      * Cuando el pedido se cancela
      */
     public function on_order_cancelled($order_id, $order = null) {
-        $this->api->log_sync(
-            'order_cancelled',
-            'order',
-            $order_id,
-            'success',
-            'Pedido cancelado - stock debe restaurarse'
-        );
+        $this->api->send_webhook('order.cancelled', array(
+            'order_id' => $order_id,
+            'status' => 'cancelled',
+            'updated_at' => current_time('c'),
+        ));
     }
 
     /**
      * Cuando el pedido se reembolsa
      */
     public function on_order_refunded($order_id, $order = null) {
-        $this->api->log_sync(
-            'order_refunded',
-            'order',
-            $order_id,
-            'success',
-            'Pedido reembolsado'
-        );
+        $this->api->send_webhook('order.refunded', array(
+            'order_id' => $order_id,
+            'status' => 'refunded',
+            'updated_at' => current_time('c'),
+        ));
     }
 
     /**

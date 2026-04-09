@@ -302,13 +302,20 @@ class Horizont_API {
     }
 
     /**
+     * Enviar evento webhook al ERP
+     */
+    public function send_webhook($event, $data) {
+        return $this->request('POST', 'webhook', array(
+            'event' => $event,
+            'data' => $data,
+        ));
+    }
+
+    /**
      * Notificar venta al ERP
      */
     public function notify_sale($order_data) {
-        return $this->request('POST', 'webhook', array(
-            'event' => 'order.created',
-            'data' => $order_data,
-        ));
+        return $this->send_webhook('order.created', $order_data);
     }
 
     /**
